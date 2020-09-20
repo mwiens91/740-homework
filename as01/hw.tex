@@ -1,0 +1,185 @@
+% Set up the document
+\documentclass{article}
+
+% Page size
+\usepackage[
+    letterpaper,]{geometry}
+\usepackage{changepage}
+
+% Lines between paragraphs
+\setlength{\parskip}{\baselineskip}
+\setlength{\parindent}{0pt}
+
+% Math
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{commath}
+
+% Shortcut for boldface
+\def\*#1{\mathbf{#1}}
+
+% Number sets
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+% Links
+\usepackage{hyperref}
+
+% Page numbers at top right
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand\headrulewidth{0pt}
+
+\begin{document}
+
+\textbf{AMATH 740 assignment 1} \\
+\textbf{Matt Wiens} \\
+\textbf{2020-08-25}
+
+1. \textbf{Eigenvalues and eigenvectors of the 1D Laplacian.}
+Consider the finite difference matrix operator $A \in \R^{n \times n}$ for the 1D model problem
+%
+\begin{equation*}
+    \dod[2]{u(x)}{x} = f(x)
+\end{equation*}
+%
+on domain $[0, 1]$ with boundary conditions $u(0) = 0$ and $u(1) = 0$,
+given by
+%
+\begin{equation*}
+    A = \frac{1}{h^2}
+        \begin{bmatrix}
+            -2 & 1 & & & & & \\
+            1 & -2 & 1 & & & \\
+              & 1 & -2 & 1 & & \\
+              & & \ddots & \ddots & \ddots & \\
+              & & & 1 & -2 & 1 \\
+              & & & & 1 & -2
+         \end{bmatrix}
+         ,
+\end{equation*}
+%
+where
+%
+\begin{equation*}
+    h = \frac{1}{n + 1}
+    .
+\end{equation*}
+%
+This matrix can be considered a discrete version of the continuous operator
+$\od[2]{}{x}$ that acts on a function $u(x)$.
+
+(a) Show that the $n$ eigenvectors of $A$ are given by the vectors
+$\*x^{(p)}$ (with $p = 1, \ldots, n$) with components
+%
+\begin{equation*}
+    x_i^{(p)} = \sin(p \pi i h),
+\end{equation*}
+%
+and with eigenvalues
+%
+\begin{equation*}
+    \lambda_p = \frac{2}{h^2} \del{\cos(p \pi h) - 1}
+    .
+\end{equation*}
+
+\textit{Solution.}
+hint is to verify general components $A \*x^{(p)}$ using trig idents
+
+\vspace{5mm}
+
+(b) Verify that the functions $u^{(p)}(x) = \sin(p \pi x)$ (with
+$p \in \N$) are eigenfunctions of the continuous differential operator
+$\od[2]{}{x}$ on domain $[0, 1]$ with boundary conditions
+$u(0) = 0$ and $u(1) = 0$. What are the eigenvalues?
+
+\textit{Solution.}
+There's bit about what an eigenvalue must satisfy in teh hw handout
+
+\vspace{5mm}
+
+(c) Compare the eigenvectors and eigenvalues for the discrete and the
+continuous operators and comment. Are the discrete and continuous eigenvalues
+similar for small values of $hp$?
+
+\textit{Solution.}
+there's a bit about what they want you to comment about in the hw handout
+
+\newpage
+
+2. \textbf{LU decomposition.}
+Find the LU decomposition of
+%
+\begin{equation*}
+    A = 
+    \begin{bmatrix}
+        1 & 4 & 7 \\
+        2 & 5 & 8 \\
+        3 & 6 & 10
+    \end{bmatrix}
+    .
+\end{equation*}
+%
+Briefly explain the steps.
+
+\textit{Solution.}
+hey
+
+\newpage
+
+3. \textbf{Computational work for recursive determinant computation.}
+Determine the number of flops required for calculating the determinant
+of an $n \times n$ matrix using a straightforward implementation of the recursive
+definition of the determinant. You can combine additions and multiplications.
+Find an approximation for the expression derived that is valid for large $n$.
+
+\textit{Solution.}
+there's some hints about how to do this, and what you might use for the approximate expression
+
+\newpage
+
+4. \textbf{Vector norm inequalities.}
+Let $\*x \in \R^n$. Show that
+$\enVert{\*x}_\infty \leq \enVert{\*x}_1 \leq n \enVert{\*x}_\infty$.
+
+\textit{Solution.}
+hey
+
+\newpage
+
+5. \textbf{Matrix norm formula.}
+Let $A \in \R^{n \times n}$. Show that
+%
+\begin{equation*}
+    \enVert{A}_1 = \max_{1 \leq j \leq n} \sum_{i = 1}^n |a_{ij}|
+\end{equation*}
+%
+(this is the \textit{maximum absolute column sum}).
+
+\textit{Solution.}
+hey
+
+\newpage
+
+6. \textbf{Inverse update formula.}
+Let $A \in \R^{n \times n}$ be a nonsingular matrix, and $\*u, \*v \in \R^n$.
+Show that if $A + \*u \*v^T$ is nonsingular, then its inverse can be expressed
+by the formula
+%
+\begin{equation*}
+    (A + \*u \*v^T)^{-1} = A^{-1} - \frac{1}{1 + \*v^T A^{-1} \*u} A^{-1} \*u \*v^T A^{-1}.
+\end{equation*}
+%
+Note: you also have to show that $1 + \*v^T A^{-1} \*u \neq 0$, because otherwise the formula
+would be ill-defined.
+
+\textit{Solution.}
+there's a hint in the homework handout about how to do the note (basically prove by contradiction)
+
+\end{document}

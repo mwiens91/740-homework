@@ -19,6 +19,9 @@
 % Shortcut for boldface
 \def\*#1{\mathbf{#1}}
 
+% Sign operator
+\DeclareMathOperator{\sgn}{sgn}
+
 % Number sets
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\N}{\mathbb{N}}
@@ -90,7 +93,89 @@ and with eigenvalues
 \end{equation*}
 
 \textit{Solution.}
-hint is to verify general components $A \*x^{(p)}$ using trig idents
+Let $p \in \N$. Then we have that the $i$th component of $A \*x^{(p)}$ is given by
+%
+\begin{equation*}
+    A \*x^{(p)}_i
+    = \sum_{j = 1}^n A_{ij} \*x^{(p)}_j
+    .
+\end{equation*}
+%
+For $i = 1$, using the identity
+%
+\begin{equation*}
+    \sin(2 \theta) = 2 \sin(\theta) \cos(\theta)
+    ,
+\end{equation*}
+%
+we have
+%
+\begin{align*}
+    A \*x^{(p)}_1
+    &= \sum_{j = 1}^n A_{1j} \*x^{(p)}_j \\
+    &= \frac{1}{h^2} \del{-2 \sin(p \pi 1 h) + \sin(p \pi 2 h)} \\
+    &= \frac{1}{h^2} \del{-2 \sin(p \pi h) + 2 \sin(p \pi h) \cos(p \pi h)} \\
+    &= \frac{2}{h^2} \del{\cos(p \pi h) - 1} \sin(p \pi h) \\
+    &= \frac{2}{h^2} \del{\cos(p \pi h) - 1} \sin(p \pi 1 h)
+    .
+\end{align*}
+%
+For $i = n$, using the identity
+%
+\begin{equation}
+    \sin(m \theta) = 2 \cos(\theta) \sin((m - 1) \theta) - \sin((m - 2) \theta)
+    \label{eq:1-1}
+    ,
+\end{equation}
+%
+we have that
+%
+\begin{equation*}
+    0 = \sin(p \pi) = \sin(p \pi (n + 1) h) = 2 \cos(p \pi h) \sin(p \pi n h) - \sin(p \pi (n - 1) h)
+    ,
+\end{equation*}
+%
+and so
+%
+\begin{equation*}
+    \sin(p \pi (n - 1) h) = 2 \cos(p \pi h) \sin(p \pi n h)
+    .
+\end{equation*}
+%
+Thus,
+%
+\begin{align*}
+    A \*x^{(p)}_n
+    &= \sum_{j = 1}^n A_{nj} \*x^{(p)}_j \\
+    &= \frac{1}{h^2} \del{\sin(p \pi (n - 1) h) - 2 \sin(p \pi n h)} \\
+    &= \frac{1}{h^2} \del{2 \cos(p \pi h) \sin(p \pi n h) - 2 \sin(p \pi n h)} \\
+    &= \frac{2}{h^2} \del{\cos(p \pi h) - 1} \sin(p \pi n h)
+    .
+\end{align*}
+%
+For $i \neq 1, n$, we use~\eqref{eq:1-1} to show that
+%
+\begin{align*}
+    A \*x^{(p)}_i
+    &= \sum_{j = 1}^n A_{ij} \*x^{(p)}_j \\
+    &= \frac{1}{h^2} \del{\sin(p \pi (i - 1) h) - 2 \sin(p \pi i h) + \sin(p \pi (i + 1) h)} \\
+    &= \frac{1}{h^2} \del{\del{2 \cos(p \pi h) \sin(p \pi i h) - \sin(p \pi (i + 1) h} - 2 \sin(p \pi i h) + \sin(p \pi (i + 1) h)} \\
+    &= \frac{1}{h^2} \del{2 \cos(p \pi h) \sin(p \pi i h) - 2 \sin(p \pi i h)} \\
+    &= \frac{2}{h^2} \del{\cos(p \pi h) - 1} \sin(p \pi i h)
+\end{align*}
+%
+To summarize, we have shown that
+%
+\begin{equation*}
+    A \*x^{(p)} = \lambda_p \*x^{(p)}
+    ,
+\end{equation*}
+%
+so $\*x^{(p)}$ is an eigenvector with eigenvalue $\lambda_p$.
+Since $A$ has at most $n$ linearly independent eigenvectors,
+and we have identified linearly independent $n$ eigenvectors,
+it follows that the eigenvectors of $A$ are given by $\*x^{(p)}$ with
+$p = 1, \ldots, n$.
 
 \vspace{5mm}
 
@@ -100,7 +185,23 @@ $\od[2]{}{x}$ on domain $[0, 1]$ with boundary conditions
 $u(0) = 0$ and $u(1) = 0$. What are the eigenvalues?
 
 \textit{Solution.}
-There's bit about what an eigenvalue must satisfy in teh hw handout
+Let $p \in \N$. To show that $u^{(p)}$ satisfies the boundary conditions,
+we have
+%
+\begin{align*}
+    u^{(p)}(0) &= \sin(p \pi 0) = 0 \\
+    u^{(p)}(1) &= \sin(p \pi 1) = \sin(p \pi) = 0
+    .
+\end{align*}
+%
+Also, we have that
+%
+\begin{equation*}
+    \dod[2]{}{x} u^{(p)}(x) = \dod[2]{}{x} \sin(p \pi x) = -(p \pi)^2 \sin(p \pi x) = -(p \pi)^2 u^{(p)}(x)
+    .
+\end{equation*}
+%
+Hence the $u^{(p)}$ functions are eigenfunctions with eigenvalues $-(p \pi)^2$.
 
 \vspace{5mm}
 
@@ -109,7 +210,30 @@ continuous operators and comment. Are the discrete and continuous eigenvalues
 similar for small values of $hp$?
 
 \textit{Solution.}
-there's a bit about what they want you to comment about in the hw handout
+Identifying that $x \approx h i$, we see that the eigenvectors are very
+similar---the discrete eigenvectors are essentially the same the continuous
+as their continuous counterpart but sampled on a grid.
+
+For the eigenvalues, recall that for small arguments $\theta$,
+%
+\begin{equation*}
+    \cos \theta \approx 1 - \frac{\theta^2}{2}
+\end{equation*}
+%
+(this is just the truncated Taylor series). Hence if $|h p| \ll 1$
+then
+%
+\begin{equation*}
+    \lambda_p
+        = \frac{2}{h^2} \del{\cos(p \pi h) - 1}
+        \approx \frac{2}{h^2} \del{\del{1 - \frac{(p \pi h)^2}{2}} - 1}
+        = - (p \pi h)^2
+        .
+\end{equation*}
+%
+Again identifying that $x \approx hi$, we see that the eigenvalues
+of the discrete eigenvectors are just discretized versions of the
+continuous eigenvectors.
 
 \newpage
 
@@ -117,7 +241,7 @@ there's a bit about what they want you to comment about in the hw handout
 Find the LU decomposition of
 %
 \begin{equation*}
-    A = 
+    A =
     \begin{bmatrix}
         1 & 4 & 7 \\
         2 & 5 & 8 \\
@@ -129,7 +253,108 @@ Find the LU decomposition of
 Briefly explain the steps.
 
 \textit{Solution.}
-hey
+Note that $A$ is non-singular (this can be verified quickly in MATLAB).
+First, we use the Gauss transformation matrix
+%
+\begin{equation*}
+    M_1 =
+    \begin{bmatrix}
+        1 & 0 & 0 \\
+        -2 & 1 & 0 \\
+        -3 & 0 & 1
+    \end{bmatrix}
+    ,
+\end{equation*}
+%
+where
+%
+\begin{equation*}
+    M_1 A =
+    \begin{bmatrix}
+        1 & 4 & 7 \\
+        0 & -3 & -6 \\
+        0 & -6 & -11
+    \end{bmatrix}
+    .
+\end{equation*}
+%
+Next, we use the transformation matrix
+%
+\begin{equation*}
+    M_2 =
+    \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & -2 & 1
+    \end{bmatrix}
+    ,
+\end{equation*}
+%
+where
+%
+\begin{equation*}
+    M_2 M_1 A =
+    \begin{bmatrix}
+        1 & 4 & 7 \\
+        0 & -3 & -6 \\
+        0 & 0 & 1
+    \end{bmatrix}
+    .
+\end{equation*}
+%
+Define
+%
+\begin{equation*}
+    U \coloneqq
+    \begin{bmatrix}
+        1 & 4 & 7 \\
+        0 & -3 & -6 \\
+        0 & 0 & 1
+    \end{bmatrix}
+    ,
+\end{equation*}
+%
+where $U$ is an upper triangular matrix. Then we have
+%
+\begin{equation*}
+    M_2 M_1 A = U
+    .
+\end{equation*}
+%
+Since the Gauss transformation matrices are invertible,
+we have
+%
+\begin{equation*}
+    A = (M_1)^{-1} (M_2)^{-1} U
+    .
+\end{equation*}
+%
+Defining $L \coloneqq (M_1)^{-1} (M_2)^{-1}$ we have
+%
+\begin{equation*}
+    L =
+    \begin{bmatrix}
+        1 & 4 & 7 \\
+        0 & -3 & -6 \\
+        0 & -6 & -11
+    \end{bmatrix}^{-1}
+    \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & -2 & 1
+    \end{bmatrix}^{-1}
+    =
+    \begin{bmatrix}
+        1 & 0 & 0 \\
+        2 & 1 & 0 \\
+        3 & 2 & 1
+    \end{bmatrix}
+\end{equation*}
+%
+(I used MATLAB to calculate this), where $L$ is a unit lower triangular matrix.
+
+Hence we have found $A = LU$ where L is unit lower triangular and
+$U$ is upper triangular.
 
 \newpage
 
@@ -140,7 +365,44 @@ definition of the determinant. You can combine additions and multiplications.
 Find an approximation for the expression derived that is valid for large $n$.
 
 \textit{Solution.}
-there's some hints about how to do this, and what you might use for the approximate expression
+Recall that the recursive definition of a determinant tells us that
+for a matrix $A \in \R^{n \times n}$,
+%
+\begin{equation*}
+    \det(A) = \sum_{j = 1}^n (-1)^{\nu + j} a_{\nu j} \det(M_{\nu j})
+\end{equation*}
+%
+for any fixed $\nu = 1, \ldots, n$, where $M_{\nu j}$ is the
+submatrix obtained by removing the $\nu$th row and $j$th column of $A$.
+
+Here, define $G(\text{\{operation\}})$ to be the function that takes in
+an operation and returns the number of flops it takes to perform that
+operation. Then we have
+%
+\begin{equation*}
+    G\del{ \det(A) }
+        = G\del{ \sum_{j = 1}^n (-1)^{\nu + j} a_{\nu j} \det(M_{\nu j}) }
+        .
+\end{equation*}
+%
+To remove the dependence on $\nu$ and $j$, let $F(n)$ denote
+the number of flops required to compute the determinant of
+an $n \times n$ matrix using the recursive definition,
+with the base case being $F(1) = 0$.
+Translating our above expression, we have
+%
+\begin{align*}
+    G\del{ \det(A) }
+        &= F(n) \\
+        &= G\del{ \sum_{j = 1}^n (-1)^{\nu + j} a_{\nu j} \det(M_{\nu j}) } \\
+        &= (n - 1) + n G\del{ (-1)^{\nu + j} a_{\nu j} \det(M_{\nu j}) } \\
+        &= (n - 1) + n \del{ 1 + G(\det(M_{\nu j})) } \\
+        &= (n - 1) + n \del{1 + F(n - 1)} \\
+        &= n F(n - 1)  + 2n - 1
+        .
+\end{align*}
+%
+NOT FINISHED
 
 \newpage
 
@@ -149,7 +411,34 @@ Let $\*x \in \R^n$. Show that
 $\enVert{\*x}_\infty \leq \enVert{\*x}_1 \leq n \enVert{\*x}_\infty$.
 
 \textit{Solution.}
-hey
+Let $\*x = (x_1, x_2, \ldots, x_n)$ and let $j$ be such that
+%
+\begin{equation*}
+    \enVert{\*x}_\infty \coloneqq \max\del{\{|x_1|, |x_2|, \ldots, |x_n|\}} = |x_j|
+    .
+\end{equation*}
+%
+Then we have
+%
+\begin{equation}
+    \enVert{\*x}_\infty = |x_j| \leq \sum_{i = 1}^n |x_i| \leq n |x_j| = n \enVert{\*x}_\infty
+    \label{eq:4-1}
+    .
+\end{equation}
+%
+Identifying that
+%
+\begin{equation*}
+    \enVert{\*x}_1 \coloneqq \sum_{i = 1}^n |x_i|
+    ,
+\end{equation*}
+%
+we can express~\eqref{eq:4-1} as
+%
+\begin{equation*}
+    \enVert{\*x}_\infty \leq \enVert{\*x}_1 \leq n \enVert{\*x}_\infty
+.
+\end{equation*}
 
 \newpage
 
@@ -163,7 +452,71 @@ Let $A \in \R^{n \times n}$. Show that
 (this is the \textit{maximum absolute column sum}).
 
 \textit{Solution.}
-hey
+First, recall that, using the definition of a matrix norm,
+%
+\begin{equation*}
+    \enVert{A}_1 = \max_{|\*x|_1 = 1} \enVert{A \*x}_1
+    .
+\end{equation*}
+%
+Let
+%
+\begin{equation*}
+    r \coloneqq \max_{1 \leq j \leq n} \sum_{i = 1}^n |a_{ij}|
+    .
+\end{equation*}
+%
+Let $\*x \in \R^n$ such that $|\*x|_1 = 1$. Then
+%
+\begin{align*}
+    |A \*x|_1
+        &= \envert{\sum_{j = 1}^n x_j a_{*j}}_1 \\
+        &\leq \sum_{j = 1}^n |x_j a_{*j}|_1 \\
+        &\leq \max_{1 \leq j \leq n} |a_{*j}|_1 \sum_{j = 1}^n |x_j| \\
+        &= \max_{1 \leq j \leq n} |a_{*j}|_1 \cdot |\*x|_1 \\
+        &= \max_{1 \leq j \leq n} |a_{*j}|_1 \\
+        &= r
+        .
+\end{align*}
+%
+Let $\nu$ be such that
+%
+\begin{equation*}
+    r = \max_{1 \leq j \leq n} |a_{*j}|_1 = |a_{* \nu}|
+    .
+\end{equation*}
+
+Now, consider $\*y \in \R^n$ whose entries are given by
+%
+\begin{equation*}
+    y_j \coloneqq \delta_{j \nu}
+    ,
+\end{equation*}
+%
+(where $\delta_{i j}$ is the Kronecker delta).
+%
+Then $|\*y|_1 = 1$ and
+%
+\begin{align*}
+    |A \*y|_1
+        &= \envert{\sum_{j = 1}^n y_j a_{*j}}_1 \\
+        &= \envert{\sum_{j = 1}^n \delta_{j \nu} a_{*j}}_1 \\
+        &= \envert{a_{* \nu}}_1 \\
+        &= r
+        .
+\end{align*}
+%
+Hence we have shown that for all $\*x \in \R^n$ with $|\*x|_1 = 1$, $|A\*x|_1 \leq r$,
+and identified such a $\*y \in \R^n$ with $|\*y|_1 = 1$ where $|A\*x|_1 = r$.
+Therefore
+%
+\begin{equation*}
+    \enVert{A}_1
+        = \max_{|\*x|_1 = 1} \enVert{A \*x}_1
+        = r
+        = \max_{1 \leq j \leq n} \sum_{i = 1}^n |a_{ij}|
+    .
+\end{equation*}
 
 \newpage
 
@@ -180,6 +533,127 @@ Note: you also have to show that $1 + \*v^T A^{-1} \*u \neq 0$, because otherwis
 would be ill-defined.
 
 \textit{Solution.}
-there's a hint in the homework handout about how to do the note (basically prove by contradiction)
+First we'll show that $1 + \*v^T A^{-1} \*u \neq 0$ provided that
+$A + \*u \*v^T$ is nonsingular. To do this, we'll use the
+``matrix determinant lemma'' which states that if $A \in \R^{n \times n}$
+is nonsingular and $\*u, \*v \in \R^n$, then
+%
+\begin{equation}
+    \det(A + \*u \*v^T) = \det(A) (1 + \*v^T A^{-1} \*u)
+    \label{eq:6-1}
+\end{equation}
+%
+(a simple proof of this lemma can be found on Wikipedia). Since
+we know that $A$ is nonsingular, we know that $\det(A) \neq 0$.
+If we assume that $A + \*u \*v^T$ is nonsingular, then we also
+have that $\det(A + \*u \*v^T) \neq 0$. Hence we can divide through by
+$\det(A)$ in~\eqref{eq:6-1} to see that
+%
+\begin{equation*}
+    (1 + \*v^T A^{-1} \*u) = \frac{\det(A + \*u \*v^T)}{\det(A)} \neq 0
+    .
+\end{equation*}
+%
+Now, to show that the inverse formula holds, we need to show that
+%
+\begin{equation}
+    (A + \*u \*v^T) \del{A^{-1} - \frac{1}{1 + \*v^T A^{-1} \*u} A^{-1} \*u \*v^T A^{-1}} = I
+    \label{eq:6-2}
+\end{equation}
+%
+and that
+%
+\begin{equation}
+    \del{A^{-1} - \frac{1}{1 + \*v^T A^{-1} \*u} A^{-1} \*u \*v^T A^{-1}} (A + \*u \*v^T) = I
+    \label{eq:6-3}
+    .
+\end{equation}
+%
+To show~\eqref{eq:6-2}, we have
+%
+\begin{align*}
+    &(A + \*u \*v^T) \del{A^{-1} - \frac{1}{1 + \*v^T A^{-1} \*u} A^{-1} \*u \*v^T A^{-1}} \\
+    &= (A + \*u \*v^T) A^{-1}
+        - \frac{1}{1 + \*v^T A^{-1} \*u}
+            \del{
+                (A + \*u \*v^T) A^{-1} \*u \*v^T A^{-1}
+            }
+        \\
+    &= I + \*u \*v^T A^{-1}
+        - \frac{1}{1 + \*v^T A^{-1} \*u}
+            \del{
+                (I + \*u \*v^T A^{-1}) \*u \*v^T A^{-1}
+            }
+        \\
+    &= I + \*u \*v^T A^{-1}
+        - \frac{1}{1 + \*v^T A^{-1} \*u}
+            \del{
+                \*u \*v^T A^{-1} + \*u \*v^T A^{-1} \*u \*v^T A^{-1}
+            }
+        \\
+    &= I + \*u \*v^T A^{-1}
+        - \frac{1}{1 + \*v^T A^{-1} \*u}
+            \del{
+                \*u (1 + \*v^T A^{-1} \*u) \*v^T A^{-1}
+            }
+        \\
+    &= I + \*u \*v^T A^{-1}
+        - \frac{1 + \*v^T A^{-1} \*u}{1 + \*v^T A^{-1} \*u}
+            \del{
+                \*u \*v^T A^{-1}
+            }
+        \\
+    &= I
+    .
+\end{align*}
+%
+To show~\eqref{eq:6-3}, we have
+%
+\begin{align*}
+    &\del{A^{-1} - \frac{1}{1 + \*v^T A^{-1} \*u} A^{-1} \*u \*v^T A^{-1}} (A + \*u \*v^T) \\
+    &=  A^{-1} (A + \*u \*v^T)
+        - \frac{1}{1 + \*v^T A^{-1} \*u} A^{-1} \*u \*v^T A^{-1}
+            \del{
+            A
+            + \*u \*v^T
+            }
+        \\
+    &=  I + A^{-1} \*u \*v^T
+        - \frac{1}{1 + \*v^T A^{-1} \*u} A^{-1} \*u \*v^T
+            \del{
+            I
+            + A^{-1} \*u \*v^T
+            }
+        \\
+    &=  I + A^{-1} \*u \*v^T
+        - \frac{1}{1 + \*v^T A^{-1} \*u}
+            \del{
+            A^{-1} \*u \*v^T
+            +
+            A^{-1} \*u \*v^T
+            A^{-1} \*u \*v^T
+            }
+        \\
+    &=  I + A^{-1} \*u \*v^T
+        - \frac{1}{1 + \*v^T A^{-1} \*u}
+            \del{
+                A^{-1} \*u (1 + \*v^T A^{-1} \*u) \*v^T
+            }
+        \\
+    &=  I + A^{-1} \*u \*v^T
+        - \frac{1 + \*v^T A^{-1} \*u}{1 + \*v^T A^{-1} \*u}
+            \del{
+                A^{-1} \*u \*v^T
+            }
+        \\
+    &= I
+    .
+\end{align*}
+%
+Hence,
+%
+\begin{equation*}
+    (A + \*u \*v^T)^{-1} = A^{-1} - \frac{1}{1 + \*v^T A^{-1} \*u} A^{-1} \*u \*v^T A^{-1}.
+\end{equation*}
 
 \end{document}

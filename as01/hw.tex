@@ -388,21 +388,59 @@ operation. Then we have
 To remove the dependence on $\nu$ and $j$, let $F(n)$ denote
 the number of flops required to compute the determinant of
 an $n \times n$ matrix using the recursive definition,
-with the base case being $F(1) = 0$.
+(with the base case being $F(1) = 0$), and let $M$ denote a ``generic''
+$(n - 1) \times (n - 1)$ matrix.
 Translating our above expression, we have
 %
 \begin{align*}
     G\del{ \det(A) }
         &= F(n) \\
         &= G\del{ \sum_{j = 1}^n (-1)^{\nu + j} a_{\nu j} \det(M_{\nu j}) } \\
-        &= (n - 1) + n G\del{ (-1)^{\nu + j} a_{\nu j} \det(M_{\nu j}) } \\
-        &= (n - 1) + n \del{ 1 + G(\det(M_{\nu j})) } \\
+        &= (n - 1) + n G\del{ (-1)^{\nu + j} a_{\nu j} \det(M) } \\
+        &= (n - 1) + n \del{ 1 + G(\det(M)) } \\
         &= (n - 1) + n \del{1 + F(n - 1)} \\
         &= n F(n - 1)  + 2n - 1
         .
 \end{align*}
 %
-NOT FINISHED
+Here we can intuit that the computational cost grows similarly to $n!$ for large $n$,
+so we propose that $F$ has the form
+%
+\begin{equation*}
+    F(n) = c(n) n!
+    ,
+\end{equation*}
+%
+where $c(n)$ is some function which (possibly) depends on $n$, which should hold for large $n$.
+Substituting this into the above expression
+(and just using ``$=$'' instead of the perhaps more appropriate ``$\approx$'' or
+$\stackrel{?}{\approx}$), we have
+%
+\begin{align*}
+    &c(n) n! = n c(n - 1) (n - 1)! + 2 n - 1 \\
+    &\iff c(n) n! = c(n - 1) n! + 2 n - 1 \\
+    &\iff c(n) = c(n - 1) + \frac{2 n - 1}{n!} \\
+    &\iff c(n) = \sum_{k = 1}^n \frac{2 k - 1}{k!} \\
+    &\iff c(n) =
+        2 \sum_{k = 1}^n \frac{1}{(k - 1)!}
+        - \sum_{k = 1}^n \frac{1}{k!} \\
+    &\iff c(n) =
+        2 \sum_{k = 0}^{n - 1} \frac{1}{k!}
+        - \sum_{k = 1}^n \frac{1}{k!} \\
+    &\iff c(n) =
+        2  + 2 \sum_{k = 1}^{n - 1} \frac{1}{k!}
+        - \sum_{k = 1}^n \frac{1}{k!} \\
+    &\implies c(n) \approx 2 + e^1
+    .
+\end{align*}
+%
+for large $n$. Hence an approximation for the number of flops to compute
+an $n \times n$ determinant is given by
+%
+\begin{equation*}
+    (2 + e) n!
+    .
+\end{equation*}
 
 \newpage
 

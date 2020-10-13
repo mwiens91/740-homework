@@ -1,0 +1,226 @@
+% Set up the document
+\documentclass{article}
+
+% Page size
+\usepackage[
+    letterpaper,]{geometry}
+\usepackage{changepage}
+
+% Lines between paragraphs
+\setlength{\parskip}{\baselineskip}
+\setlength{\parindent}{0pt}
+
+% Math
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{commath}
+
+% Shortcut for boldface
+\def\*#1{\mathbf{#1}}
+
+% Number sets
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+% Links
+\usepackage{hyperref}
+
+% Page numbers at top right
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand\headrulewidth{0pt}
+
+\begin{document}
+
+\textbf{AMATH 740 assignment 2} \\
+\textbf{Matt Wiens} \\
+\textbf{2020-09-23}
+
+1. \textbf{Floating point numbers.}
+Let $\texttt{eps}$ denote the distance between the number $1$ and
+the next floating point number that is greater than $1$. Explain why
+(assuming, e.g., IEEE double precision numbers) $\texttt{eps} = 2 \mu$,
+where $\mu$ is the unit roundoff of the floating point number system.
+
+\textit{Solution.}
+hey
+
+\newpage
+
+2. \textbf{Rounding errors.}
+Consider the expression
+%
+\begin{equation*}
+    z_A = \frac{1}{\sqrt{1 + x^2} - \sqrt{1 - x^2}}.
+\end{equation*}
+%
+(i) Explain why the formula for $z_A$ is susceptible for catastrophic
+cancellation errors for $x$ close to $0$.
+
+\textit{Solution.}
+hey
+
+\vspace{5mm}
+
+(ii) Use reformulation to find an alternative expression $z_B$ for expression
+$z_A$ in a way that avoids catastrophic cancellation for $x$ close to $0$.
+
+\textit{Solution.}
+hint is to use $p^2 - q^2 = (p - q)(p+q)$
+
+\newpage
+
+3. \textbf{Gram-Schmidt algorithm.}
+Consider the matrix
+%
+\begin{equation*}
+    A =
+    \begin{bmatrix}
+        2 & 0 & 0 \\
+        0 & 1 & 1 \\
+        0 & 1 & 2 \\
+        0 & 0 & 0
+    \end{bmatrix}
+    .
+\end{equation*}
+%
+(a) Determine (by hand) the reduced $QR$ factorization of $A$ using the
+Gram-Schmidt algorithm. That is, orthonormalize the column vectors of $A$,
+and write the result as
+%
+\begin{equation*}
+    A = \hat{Q} \hat{R},
+\end{equation*}
+%
+with $\hat{Q} \in \R^{4 \times 3}$ and $\hat{R} \in \R^{3 \times 4}$. (Keep
+the square roots and the divisions by square roots in your answer.)
+
+\textit{Solution.}
+hey
+
+\vspace{5mm}
+
+(b) Extend this to the full $QR$ factorization of $A$,
+%
+\begin{equation*}
+    A = QR,
+\end{equation*}
+%
+with $Q \in \R^{4 \times 4}$ and $R \in \R^{4 \times 3}$. (Keep the square
+roots and the divisions by square roots in your answer. Check that the $Q$
+you obtain is indeed an orthogonal matrix!)
+
+\textit{Solution.}
+hey
+
+\newpage
+
+4. \textbf{Computational cost of Gram-Schmidt algorithm.}
+Let $A \in \R^{m \times n}$ with $m \geq n$. Consider the Gram-Schmidt
+algorithm in the lecture notes (Algorithm 3.2). Assuming that both $m$ and
+$n$ are large, show that the dominant term in the computational work is given
+by
+%
+\begin{equation*}
+    W \approx 2 m n^2 \text{ flops.}
+\end{equation*}
+
+\newpage
+
+5. \textbf{$\boldsymbol{QR}$ factorization.}
+Let
+%
+\begin{equation*}
+    A =
+    \begin{bmatrix}
+        \*a_1 & \*a_2
+    \end{bmatrix}
+    =
+   \begin{bmatrix}
+       4 & 5 \\
+       3 & 10
+   \end{bmatrix}
+   .
+\end{equation*}
+%
+(i) Construct the first Householder reflection matrix, $Q_1$, which reflects
+the first column of $A$, $\*a_1$, to a vector
+%
+\begin{equation*}
+    Q_1 \*a_1 =
+    \begin{bmatrix}
+        \pm \enVert{\*a_1} \\
+        0
+    \end{bmatrix}
+    ;
+\end{equation*}
+%
+that is, choose the sign according to the rule used to ensure numerical
+stability, determine the vector $\*v_1$ and its normalized version
+$\*u_1$, and then the matrix $Q_1$.
+
+\textit{Solution.}
+hey
+
+\vspace{5mm}
+
+(ii) Verify that $Q_1$ is an orthogonal matrix.
+
+\textit{Solution.}
+hey
+
+\vspace{5mm}
+
+(iii) Make a sketch in the $\R^2$ plane indicating the vectors
+$\*x = (x, y)^T \in \R^2$ that arise in parts (i)--(ii):
+the original vector $\*a_1$, and its image $Q_1 \*a_1$ under the reflection.
+Also indicate the line about which the vectors are reflected.
+
+\textit{Solution.}
+hey
+
+\vspace{5mm}
+
+(iv) Compute $Q_1 A$ and write down the $QR$ decomposition of $A$.
+
+\textit{Solution.}
+hey
+
+\newpage
+
+6. \textbf{Determinant inequality.}
+Let $A \in \R^{n \times n}$, and let $a_j$ be the $j$th column of $A$.
+Show that
+%
+\begin{equation*}
+    |\det(A)| \leq \prod_{j = 1}^n \enVert{a_j}_2
+    .
+\end{equation*}
+
+\textit{Solution.}
+hint is to use QR decomposition of A and comment is that this question isnt
+straightforward
+
+\newpage
+
+7. \textbf{Norm inequality.}
+Let $A \in \R^{n \times n}$. Show that if $B \in \R^{n \times n}$ is
+singular, then
+%
+\begin{equation*}
+    \frac{\enVert{A - B}}{\envert{A}} \geq \frac{1}{\kappa(A)}
+\end{equation*}
+%
+for any matrix norm induced by a vector norm.
+
+\textit{Solution.}
+hint is to consider a unit vector lying in the nullspace of B and comment
+is that this isn't straightforward
+
+\end{document}

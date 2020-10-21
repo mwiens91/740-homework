@@ -19,6 +19,9 @@
 % Shortcut for boldface
 \def\*#1{\mathbf{#1}}
 
+% Operators
+\DeclareMathOperator{\rank}{rank}
+
 % Number sets
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\N}{\mathbb{N}}
@@ -548,13 +551,64 @@ Let $A \in \R^{n \times n}$, and let $a_j$ be the $j$th column of $A$.
 Show that
 %
 \begin{equation*}
-    |\det(A)| \leq \prod_{j = 1}^n \enVert{a_j}_2
+    |\det(A)| \leq \prod_{j = 1}^n \enVert{\*a_j}_2
     .
 \end{equation*}
 
 \textit{Solution.}
-hint is to use QR decomposition of A and comment is that this question isnt
-straightforward
+Suppose that $\rank(A) < n$. Then $\det(A) = 0$ and so the above inequality
+is trivially satisfied (noting that $\enVert{\cdot}_2 \geq 0$). Now suppose
+that $\rank(A) = n$.
+
+For the case of $\rank(A) = n$, let $A = QR$ be the $QR$ factorization of $A$
+(note that $\rank(A) = n$ implies this factorization is unique).
+Since $Q$ is orthogonal, $\det(Q) = 1$ and since the determinant is multiplicative,
+we have
+%
+\begin{equation*}
+    \det(A) = \det(QR) = \det(Q) \det(R) = \det(R)
+    .
+\end{equation*}
+%
+Recall that $R$ is an upper triangular matrix, whose diagonal entries are
+given by---using the notation of the Gram-Schmidt orthogonalization
+algorithm discussed in the course notes---$r_{jj}$, where
+%
+\begin{equation*}
+    \*q_j r_{jj} = \*a_j - \sum_{i = 1}^{j - 1} r_{ij} \*q_i
+    .
+\end{equation*}
+%
+Re-arranging, we have
+%
+\begin{equation*}
+    \*a_j = \sum_{i = 1}^{j} r_{ij} \*q_i
+    .
+\end{equation*}
+%
+Taking the $l^2$-norm of both sides of this equality, and making
+use of the fact that (1) the $\*q_j$ vectors are orthogonal, (2)
+that $\enVert{\*q_j}_2 = 1$, and (3) that $r_{jj} > 0$, we have
+%
+\begin{align*}
+    \enVert{\*a_j}_2
+        &= \enVert{\sum_{i = 1}^{j} r_{ij} \*q_i}_2 \\
+        &= \sum_{i = 1}^{j} \enVert{r_{ij} \*q_i}_2 \\
+        &= \sum_{i = 1}^{j} |r_{ij}| \enVert{\*q_i}_2 \\
+        &= \sum_{i = 1}^{j} |r_{ij}| \\
+        &\geq |r_{jj}| \\
+        &= r_{jj}
+    .
+\end{align*}
+%
+Hence for all $j = 1, \ldots, n$ we have $r_{jj} \leq \enVert{\*a_j}_2$
+and so
+%
+\begin{equation*}
+    \det(A) = \det(R) = \prod_{j = 1}^n r_{jj} \leq \prod_{j = 1}^n \enVert{\*a_j}_2
+\end{equation*}
+%
+Hence we have shown that the inequality holds for square matrices of any rank.
 
 \newpage
 
@@ -569,7 +623,45 @@ singular, then
 for any matrix norm induced by a vector norm.
 
 \textit{Solution.}
-hint is to consider a unit vector lying in the nullspace of B and comment
-is that this isn't straightforward
+Recall from the course notes that $\kappa(A) = \enVert{A} \enVert[0]{A^{-1}}$.
+Hence, the statement we need to prove is
+%
+\begin{equation*}
+    \frac{\enVert{A - B}}{\enVert{A}} \geq \frac{1}{\enVert{A} \enVert[0]{A^{-1}}}
+\end{equation*}
+%
+which is equivalent to
+%
+\begin{equation}
+    \enVert{A - B} \geq \frac{1}{\enVert[0]{A^{-1}}}
+    \label{eq:7-0}
+    .
+\end{equation}
+%
+We first note that if $A$ is invertible then for all $\*x \neq \*0$,
+%
+\begin{equation}
+    \enVert{\*x}
+        = \enVert[0]{A^{-1} (A \*x)}
+        \leq \enVert[0]{A^{-1}} \enVert{A \*x}
+        \label{eq:7-i}
+        .
+\end{equation}
+%
+Now define $C \coloneqq A - B$ and let $\*x^* \in \ker(B)$ with $\*x^* \neq \*0$
+(such a vector is guaranteed to exist since $B$ is assumed to be singular). Then
+$B \*x^* = \*0$, which implies $(C - A) \*x^* = \*0$ which further implies
+$A \*x^* = C \*x^*$. Then we have that, using~\eqref{eq:7-i},
+%
+\begin{equation*}
+    \enVert{\*x^*}
+    \leq \enVert[0]{A^{-1}} \enVert[0]{A \*x^*}
+    = \enVert[0]{A^{-1}} \enVert[0]{C \*x^*}
+    \leq \enVert[0]{A^{-1}} \enVert[0]{C} \enVert{\*x^*}
+    = \enVert[0]{A^{-1}} \enVert[0]{A - B} \enVert{\*x^*}
+    ,
+\end{equation*}
+%
+which implies $1 \leq \enVert[0]{A^{-1}} \enVert[0]{A - B}$ which is equivalent to~\eqref{eq:7-0}.
 
 \end{document}

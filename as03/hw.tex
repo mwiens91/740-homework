@@ -1,0 +1,195 @@
+% Set up the document
+\documentclass{article}
+
+% Page size
+\usepackage[
+    letterpaper,]{geometry}
+\usepackage{changepage}
+
+% Lines between paragraphs
+\setlength{\parskip}{\baselineskip}
+\setlength{\parindent}{0pt}
+
+% Math
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{commath}
+
+% Shortcut for boldface
+\def\*#1{\mathbf{#1}}
+
+% Operators
+%\DeclareMathOperator{\rank}{rank}
+
+% Asymptotic notations
+\newcommand{\Oh}{\mathcal{O}}
+
+% Number sets
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+% Links
+\usepackage{hyperref}
+
+% Graphics
+\usepackage{float}
+\usepackage{graphicx}
+\graphicspath{ {./img/} }
+
+% Page numbers at top right
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand\headrulewidth{0pt}
+
+\begin{document}
+
+\textbf{AMATH 740 assignment 3} \\
+\textbf{Matt Wiens} \\
+\textbf{2020-11-27}
+
+1. \textbf{CG step length.}
+Consider the CG method for $A \*x = \*b$ with $A$ SPD. Show that, in the update formula
+%
+\begin{equation*}
+    \*x_k = \*x_{k - 1} + \alpha_k \*p_{k - 1}
+    ,
+\end{equation*}
+%
+CG chooses the step length that minimizes $\phi(\*x)$ along the along direction $\*p_{k - 1}$,
+as in steepest descent:
+%
+\begin{equation*}
+    \dod{}{\alpha_k} \phi(\*x_k(\alpha_k)) = 0.
+\end{equation*}
+
+(a) Show first that this requires step length
+%
+\begin{equation*}
+    \alpha_k = \frac{\*r_{k - 1}^T \*p_{k - 1}}{\*p_{k - 1}^T A \*p_{k - 1}}
+    .
+\end{equation*}
+%
+\textit{Solution.}
+
+\vspace{5mm}
+
+(b) Using properties we showed in class for the CG method, show that this $\alpha_k$
+equals the $\alpha_k$ used in the CG algorithm:
+%
+\begin{equation*}
+    \alpha_k = \frac{\*r_{k - 1}^T \*r_{k - 1}}{\*p_{k - 1}^T A \*p_{k - 1}}
+    .
+\end{equation*}
+%
+\textit{Solution.}
+
+\newpage
+
+2. \textbf{High-order ODE.}
+Write the following third order ODE as a first-order ODE system:
+%
+\begin{equation*}
+    y^{\prime \prime \prime}(x) + 3 y^{\prime \prime}(x) - 4 y^\prime(x) + 7 y(x) = x^2 + 7,
+\end{equation*}
+%
+and give the system in matrix form.
+
+\textit{Solution.}
+
+\newpage
+
+3. \textbf{Local truncation error for Ralston method.}
+Consider the Ralson method for ODE $y^\prime = f(x, y)$:
+%
+\begin{align*}
+    k_1 &= f(x_n, y_n), \\
+    k_2 &= f\del{x_n + \frac{2}{3} h, y_n + \frac{2}{3}h k_1}, \\
+    y_{n + 1} &= y_n + h \del{\frac{1}{4} k_1 + \frac{3}{4} k_2}.
+\end{align*}
+%
+Show that the local truncation error at $x_{n + 1}$, given by
+$l_{n + 1} = \hat{y}(x_{n + 1}) - y_{n - 1}$, is $\Oh(h^3)$.
+(Note: We assume as usual that $f$ and its derivatives are sufficiently smooth and bounded. The Ralson method is a 2-stage RK method.)
+
+\textit{Solution.}
+
+\newpage
+
+4. \textbf{Local truncation error for $\boldsymbol\eta$ method}.
+Consider numerical method
+%
+\begin{equation*}
+    y_{n + 1} = y_n + h f(x_n + (1 - \eta) h, \eta y_n + (1 - \eta) y_{n + 1}), \quad \eta \in [0, 1]
+\end{equation*}
+%
+for $y^\prime = f(x, y)$. Show that the local truncation error $l_{n + 1} = \Oh(h^2)$ for any $\eta \in [0, 1]$. Is there
+a value of $\eta$ for which $l_{n + 1} = \Oh(h^3)$?
+
+(Note: We assume as usual that $f$ and its derivatives are sufficiently smooth and bounded.)
+
+\textit{Solution.}
+
+\newpage
+
+5. \textbf{Accurate approximation at $\boldsymbol{x_1}$}.
+You are given the ODE
+%
+\begin{equation*}
+    y^\prime(x) = f(x, y)
+\end{equation*}
+%
+with explicit knowledge of $f(x, y)$ as a function of $x$ and $y$. Assume that, given the initial condition $y_0 = y(x_0)$,
+you need a starting value for $y_1$ at $x_1 = x_0 + h$ that is accurate with order $h^4$. Find an explicit method for calculating
+such an accurate starting value $y_1$, using only evaluations of $f(x, y)$ and its partial derivatives at $x_0$.
+
+\textit{Solution.}
+(hint: use Taylor series)
+
+\newpage
+
+6. \textbf{Numerical stability of backward Euler method}.
+Find the region $D$ of absolute stability for the backward Euler method
+%
+\begin{equation*}
+    y_{n + 1} = y_n + h f(x_{n + 1}, y_{n + 1})
+\end{equation*}
+%
+in the complex $h \lambda$ plane.
+
+(Note: this is an implicit one-step method, and can be derived similar to the forward Euler method.)
+
+\textit{Solution.}
+
+\newpage
+
+7. \textbf{Numerical stability of Ralston method.}
+Consider Ralson's method
+%
+\begin{align*}
+    k_1 &= f(x_n, y_n), \\
+    k_2 &= f\del{x_n + \frac{2}{3} h, y_n + \frac{2}{3}h k_1}, \\
+    y_{n + 1} &= y_n + h \del{\frac{1}{4} k_1 + \frac{3}{4} k_2}.
+\end{align*}
+%
+(a) Show that the region $D$ of absolute stability for this method in the complex $h \lambda$ plane is
+described by the condition
+%
+\begin{equation*}
+    |1 + h \lambda + h^2 \lambda^2 / 2| < 1.
+\end{equation*}
+%
+\textit{Solution.}
+
+\vspace{5mm}
+
+(b) Consider this inequality for the case of real $\lambda < 0$, and derive an upper stability bound for the step length $h$.
+
+\textit{Solution.}
+
+\end{document}

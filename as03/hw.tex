@@ -76,6 +76,30 @@ as in steepest descent:
 \end{equation*}
 %
 \textit{Solution.}
+We take the derivative as follows:
+%
+\begin{equation*}
+    \dod{}{\alpha_k} \phi(\*x_k(\alpha_k))
+        = \nabla \phi(\*x_k)^T \dod{\*x_k}{\alpha_k}
+        = (-\*r_k)^T \*p_{k - 1}
+        = - \*r_k^T \*p_{k - 1}
+        .
+\end{equation*}
+%
+Then setting this expression to $0$ gives us
+%
+\begin{align*}
+    &- \*r_k^T \*p_{k - 1} = 0 \\
+    &\iff \*r_k^T \*p_{k - 1} = 0 \\
+    &\iff (\*b - A \*x_k)^T \*p_{k - 1} = 0 \\
+    &\iff (\*b - A (\*x_{k - 1} + \alpha_k \*p_{k - 1}))^T \*p_{k - 1} = 0 \\
+    &\iff (\*r_{k - 1} - \alpha_k A \*p_{k - 1})^T \*p_{k - 1} = 0 \\
+    &\iff \*r_{k - 1}^T \*p_{k - 1} - \alpha_k \*p_{k - 1}^T A^T \*p_{k - 1} = 0 \\
+    &\iff \*r_{k - 1}^T \*p_{k - 1} - \alpha_k \*p_{k - 1}^T A \*p_{k - 1} = 0 \\
+    &\iff \alpha_k = \frac{\*r_{k - 1}^T \*p_{k - 1}}{\*p_{k - 1}^T A \*p_{k - 1}},
+\end{align*}
+%
+which is our desired result.
 
 \vspace{5mm}
 
@@ -88,6 +112,44 @@ equals the $\alpha_k$ used in the CG algorithm:
 \end{equation*}
 %
 \textit{Solution.}
+Recall that the search direction $\*p_k$ is given by $\*p_0 = \*r_0$
+and for $k > 0$,
+%
+\begin{equation*}
+    \*p_k = \*r_k + \beta_k \*p_{k - 1}
+    .
+\end{equation*}
+%
+We can see that if we ``unravel'' the recursion we will have
+%
+\begin{equation*}
+    \*p_k = \*r_k + \sum_{i = 0}^{k - 1} \prod_{j = i + 1}^k \beta_j \*r_{i}
+    .
+\end{equation*}
+%
+We know for the CG algorithm, all residuals are mutually orthogonal. Hence
+%
+\begin{align*}
+    \*r_{k - 1}^T \*p_{k - 1}
+    &=
+    \*r_{k - 1}^T \del{\*r_{k - 1} + \sum_{i = 0}^{k - 2} \prod_{j = i + 1}^{k - 1} \beta_j \*r_{i}}
+    \\
+    &=
+    \*r_{k - 1}^T \*r_{k - 1} + \sum_{i = 0}^{k - 2} \prod_{j = i + 1}^{k - 1} \beta_j \*r_{k - 1}^T \*r_{i}
+    \\
+    &=
+    \*r_{k - 1}^T \*r_{k - 1} + \sum_{i = 0}^{k - 2} \prod_{j = i + 1}^{k - 1} \beta_j 0
+    \\
+    &= \*r_{k - 1}^T \*r_{k - 1}
+    .
+\end{align*}
+%
+Hence our expression from part (a) becomes
+%
+\begin{equation*}
+    \alpha_k = \frac{\*r_{k - 1}^T \*r_{k - 1}}{\*p_{k - 1}^T A \*p_{k - 1}}
+    .
+\end{equation*}
 
 \newpage
 
@@ -101,6 +163,49 @@ Write the following third order ODE as a first-order ODE system:
 and give the system in matrix form.
 
 \textit{Solution.}
+Here we set
+%
+\begin{align*}
+    y_1(x) &\coloneqq y(x), \\
+    y_2(x) &\coloneqq y^\prime(x), \\
+    y_3(x) &\coloneqq y^{\prime \prime} (x),
+\end{align*}
+%
+which gives us the system (where we supress the arguments $x$)
+%
+\begin{align*}
+    y_1^\prime &= y_2, \\
+    y_2^\prime &= y_3, \\
+    y_3^\prime &= x^2 + 7 - 3 y_3 + 4 y_2 - 7 y_1.
+\end{align*}
+%
+We can write this in matrix form as
+%
+\begin{equation*}
+    \begin{bmatrix}
+        y_1 \\
+        y_2 \\
+        y_3
+    \end{bmatrix}^\prime
+    =
+    \begin{bmatrix}
+        0 & 1 & 0 \\
+        0 & 0 & 1 \\
+        -7 & 4 & -3
+    \end{bmatrix}
+    \begin{bmatrix}
+        y_1 \\
+        y_2 \\
+        y_3
+    \end{bmatrix}
+    +
+   \begin{bmatrix}
+       0 \\
+       0 \\
+       x^2 + 7
+   \end{bmatrix}
+   .
+\end{equation*}
 
 \newpage
 

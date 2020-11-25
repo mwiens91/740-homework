@@ -219,10 +219,106 @@ Consider the Ralson method for ODE $y^\prime = f(x, y)$:
 \end{align*}
 %
 Show that the local truncation error at $x_{n + 1}$, given by
-$l_{n + 1} = \hat{y}(x_{n + 1}) - y_{n - 1}$, is $\Oh(h^3)$.
+$l_{n + 1} = \hat{y}(x_{n + 1}) - y_{n + 1}$, is $\Oh(h^3)$.
 (Note: We assume as usual that $f$ and its derivatives are sufficiently smooth and bounded. The Ralson method is a 2-stage RK method.)
 
 \textit{Solution.}
+Here we take an approach similar to the approach taken when showing the local truncation error for the Euler-Cauchy
+method in the notes. To start, we have
+%
+\begin{align*}
+    l_{n + 1}
+        &= \hat{y}(x_{n + 1}) - y_{n + 1} \\
+        &= \del{\hat{y}(x_{n}) + \hat{y}^\prime(x_n)h + \hat{y}^{\prime \prime} \frac{h^2}{2} + \Oh(h^3)}
+            \\
+        &\quad-
+            \del{y_{n} + h \del{\frac{1}{4} f(x_n, y_n) + \frac{3}{4} f\del{x_n + \frac{2}{3} h, y_n + \frac{2}{3}h f(x_n, y_n)}}}
+            .
+\end{align*}
+%
+Now, we note the following:
+%
+\begin{align*}
+    \hat{y}(x_n) &= y_n,
+    \\
+    \hat{y}^\prime(x_n) &= f(x_n, \hat{y}(x_n)) = f(x_n, y_n) \eqqcolon f_n,
+    \\
+    \hat{y}^{\prime \prime}(x_n)
+        &= \dpd{f}{x} (x_n, \hat{y}(x_n))
+        + \dpd{f}{y} (x_n, \hat{y}(x_n))
+        f(x_n, \hat{y}(x_n))
+        \\
+        &= \dpd{f_n}{x}
+        + \dpd{f_n}{y} f_n
+        ,
+\end{align*}
+%
+where in the last line we used that
+%
+\begin{equation*}
+    \hat{y}^{\prime \prime}(x)
+        = \dpd{f}{x} + \dpd{f}{y} \dod{y}{x}
+        = \dpd{f}{x} + \dpd{f}{y} f
+        .
+\end{equation*}
+%
+Thus we have that
+%
+\begin{equation*}
+    \hat{y}(x_{n}) + \hat{y}^\prime(x_n)h + \hat{y}^{\prime \prime} \frac{h^2}{2}
+    = y_n + h f_n + \frac{h^2}{2} \del{\dpd{f_n}{x} + \dpd{f_n}{y} f_n}
+    .
+\end{equation*}
+%
+Now focusing on the second term in our equation for $l_{n + 1}$, by
+using a Taylor expansion, we have that
+%
+\begin{align*}
+    f\del{x_n + \frac{2}{3} h, y_n + \frac{2}{3}h f(x_n, y_n)}
+        &= f(x_n, y_n)
+            + \dpd{f}{x} (x_n, y_n) \frac{2}{3} h
+            + \dpd{f}{y} (x_n, y_n) \frac{2}{3} h f(x_n, y_n)
+            + \Oh(h^2)
+            \\
+        &= f_n
+            + \frac{2}{3} h \dpd{f_n}{x}
+            + \frac{2}{3} h f_n \dpd{f_n}{y}
+            + \Oh(h^2)
+            ,
+\end{align*}
+%
+and so
+%
+\begin{align*}
+    &y_{n} + h \del{\frac{1}{4} f(x_n, y_n) + \frac{3}{4} f\del{x_n + \frac{2}{3} h, y_n + \frac{2}{3}h f(x_n, y_n)}} \\
+        &= y_n
+            + \frac{1}{4} h f_n
+            + \frac{3}{4} h \del{
+                f_n
+                + \frac{2}{3} h \dpd{f_n}{x}
+                + \frac{2}{3} h f_n \dpd{f_n}{y}
+                + \Oh(h^2)
+            }
+            \\
+        &= y_n
+            + \frac{1}{4} h f_n
+            + \frac{3}{4} h f_n
+            + \frac{1}{2} h^2 \dpd{f_n}{x}
+            + \frac{1}{2} h^2 f_n \dpd{f_n}{y}
+            + \Oh(h^3)
+            \\
+        &= y_n + h f_n + \frac{h^2}{2} \del{\dpd{f_n}{x} + \dpd{f_n}{y} f_n} + \Oh(h^3)
+        \\
+        &= \hat{y}(x_{n}) + \hat{y}^\prime(x_n)h + \hat{y}^{\prime \prime} \frac{h^2}{2} + \Oh(h^3)
+        .
+\end{align*}
+%
+Thus we see that in our equation for $l_{n + 1}$ that
+%
+\begin{equation*}
+    l_{n + 1} = \Oh(h^3)
+    .
+\end{equation*}
 
 \newpage
 
@@ -239,6 +335,155 @@ a value of $\eta$ for which $l_{n + 1} = \Oh(h^3)$?
 (Note: We assume as usual that $f$ and its derivatives are sufficiently smooth and bounded.)
 
 \textit{Solution.}
+The approach here is similar to that of the previous question. To start, we have
+%
+\begin{align*}
+    l_{n + 1}
+        &= \hat{y}(x_{n + 1}) - y_{n + 1} \\
+        &= \del{\hat{y}(x_{n}) + \hat{y}^\prime(x_n)h + \hat{y}^{\prime \prime} \frac{h^2}{2} + \Oh(h^3)}
+            - \del{y_{n} + h f(x_n + (1 - \eta) h, \eta y_n + (1 - \eta) y_{n + 1})}
+            .
+\end{align*}
+%
+As before, we identify
+%
+\begin{align*}
+    \hat{y}(x_n) &= y_n,
+    \\
+    \hat{y}^\prime(x_n) &= f_n,
+    \\
+    \hat{y}^{\prime \prime}(x_n)
+        &= \dpd{f_n}{x}
+        + \dpd{f_n}{y} f_n
+        ,
+\end{align*}
+%
+and so
+%
+\begin{equation*}
+    \hat{y}(x_{n}) + \hat{y}^\prime(x_n)h + \hat{y}^{\prime \prime} \frac{h^2}{2}
+    = y_n + h f_n + \frac{h^2}{2} \del{\dpd{f_n}{x} + \dpd{f_n}{y} f_n}
+    .
+\end{equation*}
+%
+First, note that from the initial equation we were given, we have
+%
+\begin{equation*}
+    \eta y_n + (1 - \eta) y_{n + 1}
+    = \eta y_n + (1 - \eta) (y_n + h C(n, \eta))
+    ,
+\end{equation*}
+%
+where
+%
+\begin{equation*}
+    C(n, \eta) = f(x_n + (1 - \eta) h, \eta y_n + (1 - \eta) y_{n + 1})
+    .
+\end{equation*}
+%
+Hence we can write
+%
+\begin{equation*}
+    f(x_n + (1 - \eta) h, \eta y_n + (1 - \eta) y_{n + 1})
+    = f(x_n + (1 - \eta) h, y_n + h C(n, \eta))
+    .
+\end{equation*}
+%
+Now, taking a Taylor series again we have that
+%
+\begin{align*}
+    &f(x_n + (1 - \eta) h, \eta y_n + (1 - \eta) y_{n + 1})
+    \\
+    &= f(x_n + (1 - \eta) h, y_n + h C(n, \eta))
+    \\
+    &= f(x_n, y_n)
+        + \dpd{f}{x} (x_n, y_n) (1 - \eta) h
+        + \dpd{f}{y} (x_n, y_n) h C(n, \eta)
+        + \Oh(h^2)
+        \\
+    &= f_n
+        + (1 - \eta) h \dpd{f_n}{x}
+        + C(n, \eta) h \dpd{f_n}{y}
+        + \Oh(h^2)
+    .
+\end{align*}
+%
+Thus we have that for any $\eta$,
+%
+\begin{align*}
+    l_{n + 1}
+        &= \hat{y}(x_{n + 1}) - y_{n + 1} \\
+        &= \del{\hat{y}(x_{n}) + \hat{y}^\prime(x_n)h + \hat{y}^{\prime \prime} \frac{h^2}{2} + \Oh(h^3)}
+            - \del{y_{n} + h f(x_n + (1 - \eta) h, \eta y_n + (1 - \eta) y_{n + 1})}
+        \\
+        &= \del{y_n + h f_n + \frac{h^2}{2} \del{\dpd{f_n}{x} + \dpd{f_n}{y} f_n} + \Oh(h^3)}
+        \\
+        &\quad -
+            \del{
+                y_n
+                +
+                h
+                \del{
+                f_n
+                + (1 - \eta) h \dpd{f_n}{x}
+                + C(n, \eta) h \dpd{f_n}{y}
+                + \Oh(h^2)
+                }
+            }
+        \\
+        &= h^2 \del{
+            \frac{1}{2}
+            \del{\dpd{f_n}{x} + \dpd{f_n}{y} f_n}
+            - (1 - \eta) \dpd{f_n}{x}
+            - C(n, \eta) \dpd{f_n}{y}
+        }
+        + \Oh(h^3)
+        .
+\end{align*}
+%
+Note that clearly $l_{n + 1} = \Oh(h^2)$.
+Now if $\eta = 1/2$ then using our definitions and taking a Taylor expansion we have
+%
+\begin{align*}
+    C\del{n, \frac{1}{2}}
+        &= f\del{x_n + \frac{1}{2} h, \frac{1}{2} y_n + \frac{1}{2} y_{n + 1}} \\
+        &= f\del{x_n + \frac{1}{2} h, y_n + h C\del{n, \frac{1}{2}}} \\
+        &= f(x_n, y_n) + \Oh(h) \\
+        &= f_n + \Oh(h)
+\end{align*}
+%
+and hence using this $\eta$ we have
+%
+\begin{align*}
+    l_{n + 1}
+        &= h^2 \del{
+            \frac{1}{2}
+            \del{\dpd{f_n}{x} + \dpd{f_n}{y} f_n}
+            - \del{1 - \frac{1}{2}} \dpd{f_n}{x}
+            - C\del{n, \frac{1}{2}} \dpd{f_n}{y}
+        }
+        + \Oh(h^3)
+        \\
+        &= h^2 \del{
+            \frac{1}{2} \dpd{f_n}{y} f_n
+            - C\del{n, \frac{1}{2}} \dpd{f_n}{y}
+        }
+        \\
+        &= h^2 \del{
+            \frac{1}{2} \dpd{f_n}{y} f_n
+            - \dpd{f_n}{y} f_n
+        }
+        + \Oh(h^3)
+        \\
+        &= -h^2 \frac{1}{2} \dpd{f_n}{y} f_n
+        + \Oh(h^3)
+        .
+\end{align*}
+%
+Note that for $l_{n + 1}$ to be $\Oh(h^3)$ we would require $\eta = 1/2 + \Oh(h)$,
+but we have just shown that for such an $\eta$ (where we omitted the $\Oh(h)$ term
+in the calculations above for readability), $l_{n + 1} = \Oh(h^2)$. Hence $l_{n + 1}$
+is never $\Oh(h^3)$.
 
 \newpage
 
@@ -254,7 +499,93 @@ you need a starting value for $y_1$ at $x_1 = x_0 + h$ that is accurate with ord
 such an accurate starting value $y_1$, using only evaluations of $f(x, y)$ and its partial derivatives at $x_0$.
 
 \textit{Solution.}
-(hint: use Taylor series)
+Again using the shorthand notation that
+%
+\begin{equation*}
+    f_n = f(x_n, y_n),
+\end{equation*}
+%
+we have that
+%
+\begin{align*}
+    \hat{y}(x_n) &= y_n,
+    \\
+    \hat{y}^\prime(x_n) &= f_n,
+    \\
+    \hat{y}^{\prime \prime}(x_n)
+        &= \dpd{f_n}{x}
+        + \dpd{f_n}{y} f_n
+    \\
+    \hat{y}^{\prime \prime \prime}(x_n)
+        &= \dpd[2]{f_n}{x}
+        + 2 \dmd{f_n}{2}{x}{}{y}{} f_n
+        + \dpd[2]{f_n}{y} f_n^2
+        + \dpd{f_n}{y} \dpd{f_n}{x}
+        + \sbr{\dpd{f_n}{y}}^2 f_n
+\end{align*}
+%
+where we used that
+%
+\begin{equation*}
+    \hat{y}^{\prime \prime}(x)
+        = \dpd{f}{x} + \dpd{f}{y} \dod{y}{x}
+        = \dpd{f}{x} + \dpd{f}{y} f
+\end{equation*}
+%
+and
+%
+\begin{align*}
+    \hat{y}^{\prime \prime \prime}(x)
+    &= \dpd[2]{f}{x}
+    + \dmd{f}{2}{x}{}{y}{} \dod{y}{x}
+    + \del{
+        \dpd[2]{f}{y} \dod{y}{x}
+        + \dmd{f}{2}{y}{}{x}{}
+    } f
+    + \dpd{f}{y} \del{\dpd{f}{x} + \dpd{f}{y} f}
+    \\
+    &= \dpd[2]{f}{x}
+    + \dmd{f}{2}{x}{}{y}{} \dod{y}{x}
+    + \dpd[2]{f}{y} \dod{y}{x} f
+    + \dmd{f}{2}{y}{}{x}{} f
+    + \dpd{f}{y} \dpd{f}{x}
+    + \dpd{f}{y} \dpd{f}{y} f
+    \\
+    &= \dpd[2]{f}{x}
+    + 2 \dmd{f}{2}{x}{}{y}{} f
+    + \dpd[2]{f}{y} f^2
+    + \dpd{f}{y} \dpd{f}{x}
+    + \sbr{\dpd{f}{y}}^2 f
+    .
+\end{align*}
+%
+Hence if we take our method to be
+%
+\begin{equation*}
+    y_1 =
+        y_0
+        + h f_0
+        + \frac{h^2}{2}
+        \del{
+            \dpd{f_0}{x}
+            + \dpd{f_0}{y} f_0
+        }
+        + \frac{h^3}{6}
+        \del{
+            \dpd[2]{f_0}{x}
+            + 2 \dmd{f_0}{2}{x}{}{y}{} f_0
+            + \dpd[2]{f_0}{y} f_0^2
+            + \dpd{f_0}{y} \dpd{f_0}{x}
+            + \sbr{\dpd{f_0}{y}}^2 f_0
+        }
+\end{equation*}
+%
+Then by construction we will have
+%
+\begin{equation*}
+    l_1 = \Oh(h^4)
+    .
+\end{equation*}
 
 \newpage
 
@@ -270,6 +601,36 @@ in the complex $h \lambda$ plane.
 (Note: this is an implicit one-step method, and can be derived similar to the forward Euler method.)
 
 \textit{Solution.}
+For absolute stability we use the test equation as per the course notes to get
+%
+\begin{align*}
+    y_{n + 1}
+        &= y_n + h f(x_{n + 1}, y_{n + 1}) \\
+        &= y_n + h \lambda y_{n + 1},
+\end{align*}
+%
+and so
+%
+\begin{align*}
+    y_{n + 1}
+        &= \frac{1}{1 - h \lambda} y_n \\
+        &= \frac{1}{(1 - h \lambda)^n} y_0.
+\end{align*}
+%
+Hence to satisfy $\lim_{n \to \infty} y_n = 0$ we need
+%
+\begin{align*}
+    &\envert{\frac{1}{1 - h \lambda}} < 1
+    \\
+    &\iff 1 < |1 - h \lambda|
+    \\
+    &\iff 1 < \sqrt{(1 - \Re(h \lambda))^2 + \Im(- h \lambda)^2}
+    \\
+    &\iff 1 < \sqrt{(1 - \Re(h \lambda))^2 + \Im(h \lambda)^2}
+    .
+\end{align*}
+%
+Hence if we let $C$ be the set $C = \{|z - 1| \leq 1\}$ then we have that $D = \C \setminus C$.
 
 \newpage
 
@@ -290,11 +651,81 @@ described by the condition
 \end{equation*}
 %
 \textit{Solution.}
+Using the same test equation as the notes, we have that
+%
+\begin{equation*}
+    k_1 = f(x_n, y_n) = \lambda y_n
+    .
+\end{equation*}
+%
+Then we have that
+%
+\begin{align*}
+    k_2
+    &= f\del{x_n + \frac{2}{3} h, y_n + \frac{2}{3}h k_1}
+    \\
+    &= f\del{x_n + \frac{2}{3} h, y_n + \frac{2}{3}h \lambda y_n}
+    \\
+    &= \lambda \del{y_n + \frac{2}{3}h \lambda y_n}
+    \\
+    &= \lambda y_n \del{1 + \frac{2}{3}h \lambda}
+    .
+\end{align*}
+%
+Thus,
+%
+\begin{align*}
+    y_{n + 1}
+    &= y_n + h \del{\frac{1}{4} k_1 + \frac{3}{4} k_2}
+    \\
+    &= y_n + h \del{\frac{1}{4} \lambda y_n + \frac{3}{4} \lambda y_n \del{1 + \frac{2}{3}h \lambda}}
+    \\
+    &= \del{1 + h \lambda + \frac{1}{2} (h \lambda)^2} y_n
+    \\
+    &= \del{1 + h \lambda + \frac{1}{2} (h \lambda)^2}^n y_0
+    .
+\end{align*}
+
+To satisfy $\lim_{n \to \infty} y_n = 0$ we need
+%
+\begin{equation*}
+    \envert{1 + h \lambda + \frac{1}{2} (h \lambda)^2} < 1
+    ,
+\end{equation*}
+%
+which is the condition we were asked to show.
 
 \vspace{5mm}
 
 (b) Consider this inequality for the case of real $\lambda < 0$, and derive an upper stability bound for the step length $h$.
 
 \textit{Solution.}
+Now we assume that $\lambda < 0$, and use this to simplify the condition
+as follows:
+%
+\begin{align*}
+    &\envert{1 + h \lambda + \frac{1}{2} (h \lambda)^2} < 1
+    \\
+    &\iff -1 < 1 + h \lambda + \frac{1}{2} (h \lambda)^2 < 1
+    \\
+    &\iff -2 < h \lambda + \frac{1}{2} (h \lambda)^2 < 0
+    .
+\end{align*}
+%
+Note that
+%
+\begin{equation*}
+    -2 < h \lambda + \frac{1}{2} (h \lambda)^2
+\end{equation*}
+%
+is always satisfied for $h \lambda \in \R$.
+Hence, since 
+%
+\begin{equation*}
+    \lambda h + \frac{\lambda^2}{2} h^2 = 0
+\end{equation*}
+%
+has solutions $h = 0, -2/\lambda$, if we want an upper stability bound for $h$
+we see that this must be $-2/\lambda$.
 
 \end{document}
